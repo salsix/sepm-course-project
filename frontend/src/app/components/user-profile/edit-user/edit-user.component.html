@@ -1,0 +1,60 @@
+<app-alert [alert]="alert"></app-alert>
+
+<div *ngIf="user">
+  <div class="pt-5">
+    <div class="row">
+      <div class="col-md-6 mx-auto">
+        <span class="anchor" id="formUpdateUser"></span>
+
+        <div class="card rounded-0">
+          <div class="card-header">
+            <h3 class="mb-0">Update User Profile</h3>
+          </div>
+
+          <div class="card-body">
+            <form class="form" [formGroup]="editUserForm" (ngSubmit)="updateUser()">
+
+              <div class="form-group">
+                <label for="inputFirstName">First Name</label>
+                <input type="text" name="firstName" formControlName="firstName" class="form-control" id="inputFirstName">
+              </div>
+
+              <div class="form-group">
+                <label for="inputLastName">Last Name</label>
+                <input type="text" name="lastName" formControlName="lastName" class="form-control" id="inputLastName">
+              </div>
+
+              <div class="form-group">
+                <label for="inputEmail">Email</label>
+                <input type="text" name="email" formControlName="email" class="form-control" id="inputEmail">
+              </div>
+
+              <div class="form-group">
+                <label for="inputGender">Gender</label>
+                <select type="text" name="gender" formControlName="gender" class="form-control" id="inputGender">
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="inputDateOfBirth">Birthdate</label>
+                <input type="date" name="dateOfBirth" formControlName="dateOfBirth" class="form-control"
+                       id="inputDateOfBirth">
+              </div>
+              <div class="form-group">
+                <button type="button" (click)="updateUser()" class="btn btn-success float-right">Update Profile</button>
+              </div>
+              <div class="form-group">
+                <button type="button" routerLink="/user/settings" class="btn btn-outline-secondary btn-sm float-left">Go Back</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

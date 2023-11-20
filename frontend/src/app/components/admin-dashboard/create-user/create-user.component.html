@@ -1,0 +1,81 @@
+<app-alert [alert]="alert"></app-alert>
+
+<div class="pt-5">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <span class="anchor" id="formCreateUser"></span>
+
+      <div class="card rounded-0">
+        <div class="card-header">
+          <h3 class="mb-0">Create User</h3>
+        </div>
+
+        <div class="card-body">
+          <form class="form" [formGroup]="createUserForm" (ngSubmit)="createUser()">
+
+            <div class="form-group">
+              <label for="inputFirstName">First Name</label>
+              <input type="text" name="firstName" formControlName="firstName" class="form-control" id="inputFirstName"
+                     placeholder="Enter first name">
+            </div>
+
+            <div class="form-group">
+              <label for="inputLastName">Last Name</label>
+              <input type="text" name="lastName" formControlName="lastName" class="form-control" id="inputLastName"
+                     placeholder="Enter last name">
+            </div>
+
+            <div class="form-group">
+              <label for="inputEmail">Email</label>
+              <input type="text" name="email" formControlName="email" class="form-control" id="inputEmail"
+                     placeholder="Enter email address">
+            </div>
+
+            <div class="form-group">
+              <label for="inputPassword">Password</label>
+              <input type="password" name="password" formControlName="password" class="form-control" id="inputPassword"
+                     placeholder="Enter password">
+            </div>
+
+            <div class="form-group">
+              <label for="inputConfirmPassword">Confirm Password</label>
+              <input type="password" name="password" formControlName="confirmPassword" [ngClass]="{'is-invalid':createUserForm.get('confirmPassword').errors}" class="form-control" id="inputConfirmPassword"
+                     placeholder="Confirm password">
+              <div class="invalid-feedback" *ngIf="createUserForm.get('confirmPassword').hasError('passwordMismatch')">Passwords dont match</div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputGender">Gender</label>
+              <select type="text" name="gender" formControlName="gender" class="form-control" id="inputGender"
+                      placeholder="Enter Gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="inputDateOfBirth">Birthdate</label>
+              <input type="date" name="dateOfBirth" formControlName="dateOfBirth" class="form-control" id="inputDateOfBirth"
+                     placeholder="Enter Birthdate">
+            </div>
+
+            <div class="form-group">
+              <label for="inputAdmin">User Role</label>
+              <select type="text" name="admin" formControlName="admin" class="form-control" id="inputAdmin">
+                <option value="true">Admin</option>
+                <option value="false">User</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <button type="button" (click)="createUser()" class="btn btn-success float-right">Create</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+

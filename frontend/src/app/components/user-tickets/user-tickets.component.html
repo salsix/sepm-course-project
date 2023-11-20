@@ -1,0 +1,92 @@
+<app-alert [alert]="basicAlert"></app-alert>
+
+<div class="bg-light p-4">
+
+  <div *ngIf="reserved" class="mb-5">
+    <h4 class="text-info">Reserved Tickets</h4>
+    <h6 class="text-danger">Reserved tickets must be bought 30m before the show!</h6>
+    <table *ngIf="reserved.length>0" class="table">
+      <thead><tr>
+        <td>Show time<br>(d/m/y h:m)</td>
+        <td>Event</td>
+        <td>Bought at<br>(d/m/y h:m)</td>
+        <td>Nr.</td>
+        <td></td>
+      </tr></thead>
+      <tbody>
+      <tr *ngFor="let b of reserved">
+        <td>{{dateStringFromString(b.show.date)}} {{timeStringNumbers(b.show.hour, b.show.minute)}}</td>
+        <td>{{b.show.event.name}}</td>
+        <td>{{dateString(b.buyTime)}} {{timeString(b.buyTime)}}</td>
+        <td>R{{b.id}}</td>
+        <td><a routerLink="{{b.id}}" class="btn btn-outline-dark">Buy/Cancel Tickets</a></td>
+      </tr>
+      </tbody>
+    </table>
+    <h5 *ngIf="reserved.length===0">No reserved tickets</h5>
+  </div>
+
+  <div *ngIf="bought" class="mb-5">
+    <h4 class="text-success">Bought Tickets</h4>
+    <h6 class="text-danger">Tickets can only be cancelled up to 30m before the show!</h6>
+    <table *ngIf="bought.length>0" class="table">
+      <thead><tr>
+        <td>Show time<br>(d/m/y h:m)</td>
+        <td>Event</td>
+        <td>Bought at<br>(d/m/y h:m)</td>
+        <td>Paid</td>
+        <td></td>
+      </tr></thead>
+      <tbody>
+      <tr *ngFor="let b of bought">
+        <td>{{dateStringFromString(b.show.date)}} {{timeStringNumbers(b.show.hour, b.show.minute)}}</td>
+        <td>{{b.show.event.name}}</td>
+        <td>{{dateString(b.buyTime)}} {{timeString(b.buyTime)}}</td>
+        <td>{{b.price}}$</td>
+        <td>
+          <a routerLink="{{b.id}}" class="btn btn-outline-dark">Cancel Tickets</a>
+          <button type="button" class="btn btn-outline-primary" (click)="orderPdf(b.id)">Ticket</button>
+          <button type="button" class="btn btn-outline-primary" (click)="billPdf(b.id)">Bill</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <h5 *ngIf="bought.length===0">No bought tickets</h5>
+  </div>
+
+  <div class="mb-5">
+    <h4 class="text-muted">Old and Cancelled Tickets</h4>
+    <div *ngIf="past.length>0">
+      <table class="table">
+        <thead><tr>
+          <td>Show time (d/m/y h:m)</td>
+          <td>Event</td>
+          <td>Bought at<br>(d/m/y h:m)</td>
+          <td>Cancelled at<br>(d/m/y h:m)</td>
+          <td>Paid</td>
+          <td></td>
+        </tr></thead>
+        <tbody>
+        <tr *ngFor="let b of past">
+          <td>{{dateStringFromString(b.show.date)}} {{timeStringNumbers(b.show.hour, b.show.minute)}}</td>
+          <td>{{b.show.event.name}}</td>
+          <td>{{dateString(b.buyTime)}} {{timeString(b.buyTime)}}</td>
+          <td><span *ngIf="b.stornoTime">{{dateString(b.stornoTime)}} {{timeString(b.stornoTime)}}</span></td>
+          <td>{{b.price}}$</td>
+          <td>
+            <button *ngIf="!b.storno" class="btn btn-outline-primary" (click)="billPdf(b.id)">Bill</button>
+            <button *ngIf="b.storno" class="btn btn-warning" (click)="stornoBillPdf(b.id)">Storno Bill</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <div class="text-center" *ngIf="past.length===5 || page!==0">
+        <app-pagination [canChange]="!pageLoad" [inPage]="page" (page)="pagination($event)"></app-pagination>
+      </div>
+    </div>
+
+    <h5 *ngIf="past.length===0">No old tickets</h5>
+  </div>
+
+</div>

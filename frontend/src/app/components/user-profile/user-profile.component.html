@@ -1,0 +1,33 @@
+<app-alert [alert]="alert"></app-alert>
+
+<div class="d-flex flex-column">
+  <h2>Settings</h2>
+
+  <div class="btn-group-vertical m-2 align-items-center">
+    <a class="btn btn-outline-primary m-3 btn-block" routerLink="/user/settings/edit" role="button">Update Your User Profile</a>
+    <a class="btn btn-outline-primary m-3 btn-block" routerLink="/user/settings/password" role="button" >Update Your Password</a>
+    <button type="button" class="btn btn-outline-danger m-3 btn-block" data-toggle="modal" data-target="#deleteModalCenter" >Delete Your Account</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLongTitle">Delete Account</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure to delete the Account permanently?</p>
+        <p>You won't be able to restore any of your Data!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-outline-danger" (click)="deleteUser()">Delete Account</button>
+      </div>
+    </div>
+  </div>
+</div>

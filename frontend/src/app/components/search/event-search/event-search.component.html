@@ -1,0 +1,36 @@
+<app-alert [alert]="basicAlert"></app-alert>
+
+<form [formGroup]="eventSearchForm" (ngSubmit)="events=[];page=0;loadEvents()">
+  <h3>Event Search</h3>
+  <div class="form-group">
+    <input type="text" class="form-control" id="eventSearch" name="eventsearch" formControlName="search" placeholder="Name, Category, Description, Artists, ...">
+    <div class="text-danger" *ngIf="!eventSearchValid">You can only use up to 5 search terms.</div>
+  </div>
+  <button type="submit" value="Submit" class="btn btn-primary">Search</button>
+</form>
+
+<div class="container" *ngIf="events.length !== 0">
+  <div class="row font-weight-bold border-bottom pt-4 mb-2">
+    <div class="col-3">Name</div>
+    <div class="col-3">Artists</div>
+    <div class="col-3">Category</div>
+    <div class="col-3">Duration</div>
+  </div>
+
+  <div class="row event-row border rounded mb-2" *ngFor="let event of events">
+    <div class="col col-3">{{event.name}}</div>
+    <div class="col col-3 artists-col">{{event.artists}}</div>
+    <div class="col col-3">{{event.category.category}}</div>
+    <div class="col col-1">{{event.duration}}min</div>
+    <div class="col col-2 d-flex justify-content-end">
+      <a class="btn btn-primary" routerLink="/events/{{event.id}}">Details</a>
+    </div>
+  </div>
+
+  <div class="text-center pt-3" *ngIf="events.length===5 || page!==0">
+    <app-pagination [canChange]="!pageLoad" [inPage]="page" (page)="pagination($event)"></app-pagination>
+  </div>
+</div>
+
+
+

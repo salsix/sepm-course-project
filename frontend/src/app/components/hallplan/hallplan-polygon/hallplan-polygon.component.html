@@ -1,0 +1,4 @@
+<div class="d-inline-block unselectable" draggable="false"
+     [style.background-color]="plan.cats[area.cat].color"
+     [style.transform]="'translate('+(area.positions[index].x-6)+'px,'+(area.positions[index].y-6)+'px)'"
+     (mousedown)="mousedown($event)"></div>

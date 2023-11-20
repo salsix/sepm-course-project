@@ -1,0 +1,48 @@
+<div>
+  <div class="form-group">
+    <label>Date</label>
+    <input type="date" class="form-control" minlength="1" [(ngModel)]="show.date">
+  </div>
+
+  <div class="form-group">
+    <label>Hour</label>
+    <input type="number" class="form-control" min="0" max="23" [(ngModel)]="show.hour">
+  </div>
+
+  <div class="form-group">
+    <label>Minute</label>
+    <input type="number" class="form-control" min="0" max="59" [(ngModel)]="show.minute">
+  </div>
+
+  <div class="form-group">
+    <label>Country</label>
+    <select class="form-control" [(ngModel)]="country" (change)="loadZips()">
+      <option [value]="null">Select Country</option>
+      <option *ngFor="let c of countryList" [value]="c">{{c}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Zip</label>
+    <select class="form-control" [(ngModel)]="zip" (change)="loadLocations()">
+      <option [value]="null">Select Zip</option>
+      <option *ngFor="let z of zipList" [value]="z">{{z}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Location</label>
+    <select class="form-control" [(ngModel)]="locationId" (change)="loadHallplans()">
+      <option [value]="null">Select Location</option>
+      <option *ngFor="let l of locationList" [value]="l.id">{{l.name}}, {{l.street}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Hallplan</label>
+    <select class="form-control" [(ngModel)]="hallplanId" (change)="setHallplan()">
+      <option [value]="null">Select Hallplan</option>
+      <option *ngFor="let h of hallplanList" [value]="h.id">{{h.name}}</option>
+    </select>
+  </div>
+</div>

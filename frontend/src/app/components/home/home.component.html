@@ -1,0 +1,7 @@
+<div *ngIf="!authService.isLoggedIn()">
+  <app-login></app-login>
+</div>
+
+<div *ngIf="authService.isLoggedIn()">
+  <app-news-current></app-news-current>
+</div>

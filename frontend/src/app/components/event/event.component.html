@@ -1,0 +1,48 @@
+<app-alert [alert]="basicAlert"></app-alert>
+
+<div *ngIf="event" class="bg-light p-4">
+  <h1>{{event.name}}</h1>
+  <h6 class="text-muted">Category: {{event.category.category}}</h6>
+
+  <div class="text-center bg-dark mt-3 mb-3" *ngIf="event.image">
+    <img src="{{imagePath()}}" alt="event image" class="event-img d-inline-block">
+  </div>
+
+  <h5>Duration: {{(event.duration-event.duration%60)/60}}h {{event.duration%60}}m</h5>
+
+  <h6 class="mb-0 font-weight-bold">Description:</h6>
+  <span [innerHTML]="event.description"></span>
+
+  <h6 class="mt-2 mb-0 text-muted font-weight-bold">Artists:</h6>
+  <span class="text-muted" [innerHTML]="event.artists"></span>
+
+  <hr/>
+
+  <div *ngIf="event.shows">
+    <h3>Shows:</h3>
+    <h4 *ngIf="event.shows.length===0">No upcoming shows</h4>
+    <table *ngIf="event.shows.length>0" class="table table-hover table-striped">
+      <thead>
+      <tr>
+        <td></td>
+        <td>Date</td>
+        <td>Time</td>
+        <td>Location</td>
+        <td>Hall</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let show of event.shows; let i=index">
+        <td class="p-2">
+          <a class="btn btn-sm btn-outline-dark" routerLink="/shows/{{show.id}}">Buy/reserve tickets</a>
+        </td>
+        <td>{{ticketsService.dateStringFromString(show.date)}}</td>
+        <td>{{ticketsService.timeString(show.hour, show.minute)}}</td>
+        <td>{{show.hallplan.location.name}}, {{show.hallplan.location.city}} {{show.hallplan.location.zip}} {{show.hallplan.location.street}}</td>
+        <td>{{show.hallplan.name}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

@@ -1,0 +1,19 @@
+<div (mousedown)="mousedown($event)"
+     [style.left]="area.x+'px'"
+     [style.top]="area.y-(38/2)+'px'">
+  <h6 class="unselectable" [style.color]="!area.select ? null : plan.cats[area.cat].color">
+    <img [class.d-none]="canDrag ? null : 'true'"
+         src="../../../../assets/move.png"
+         alt="move" draggable="false">
+    <b> {{area.identifier + '' + area.rowNumber}}</b>
+    <br>
+    <span>{{
+      area.count -
+      (booked && booked.areas && booked.areas[area.identifier + area.rowNumber] ?
+        booked.areas[area.identifier + area.rowNumber] : 0)
+      - (want && want.areas && want.areas[area.identifier + area.rowNumber] ?
+        want.areas[area.identifier + area.rowNumber] : 0)
+      }}</span>
+  </h6>
+
+</div>

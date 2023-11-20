@@ -1,0 +1,38 @@
+<app-alert [alert]="basicAlert"></app-alert>
+
+<div class="bg-light p-4">
+  <div *ngIf="categories" class="mb-4">
+    <h3>Categories</h3>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm p-0" *ngFor="let c of categories">
+          <button type="button" class="btn btn-block"
+                  [class]="'btn-' + (category==c ? 'primary' : 'outline-primary')"
+                  (click)="changeCategory(c)">{{c}}</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>Top 10</h3>
+  <div class="table">
+    <div class="container">
+      <div class="row border-dark pb-2 border-bottom mb-2 font-weight-bold">
+        <div class="col-1">#</div>
+        <div class="col">Name</div>
+      </div>
+    </div>
+    <div *ngFor="let t of topTen;let i=index" class="top-ten mb-3 container">
+      <div class="row">
+        <div class="col-1 font-weight-bold">{{i+1}}.</div>
+        <div class="col">
+          <span>{{t.event.name}}</span>
+          <a [routerLink]="['/events/', t.event.id]" class="float-right btn btn-outline-dark btn-sm">Go to Event</a>
+        </div>
+      </div>
+      <div class="top-ten-bar bg-success" [style.width]="t.count + '%'"></div>
+    </div>
+  </div>
+</div>

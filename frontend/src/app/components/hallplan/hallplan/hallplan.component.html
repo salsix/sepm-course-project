@@ -1,0 +1,56 @@
+<div class="hallplan-drag"
+     [style.height]="this.height+'px'"
+     [style.width]="this.width+'px'">
+  <h4 class="text-center unselectable">Stage</h4>
+
+  <!-- polygon canvas -->
+  <svg class="hallplan-canvas">
+    <polygon *ngFor="let area of plan.areas; let i=index; trackBy:trackIndex"
+             [attr.points]="area.polyString"
+             [attr.stroke]="plan.cats[area.cat].color"
+             stroke-width="2" [attr.fill]="plan.cats[area.cat].color+'44'"></polygon>
+  </svg>
+
+  <!-- html 'canvas' -->
+  <div class="hallplan-canvas" (mousedown)="unfocus()">
+    <!-- seat rows -->
+    <app-hallplan-seat *ngFor="let seat of plan.seats; let i=index; trackBy:trackIndex"
+                       (width)="updateWidth($event)"
+                       (height)="updateHeight($event)"
+                       (mousedown)="focusSeat($event, seat, i)"
+                       (seatNumber)="seatNumber.emit($event)"
+                       [index]="i"
+                       [canDrag]="canEdit"
+                       [seat]="seat"
+                       [plan]="plan"
+                       [booked]="booked" [want]="want">
+    </app-hallplan-seat>
+
+    <!-- polygon handles -->
+    <div class="hallplan-handles">
+      <div *ngFor="let area of plan.areas; let i=index; trackBy:trackIndex">
+        <!-- text -->
+        <app-hallplan-polygon-text
+          (width)="updateWidth($event)"
+          (height)="updateHeight($event)"
+          [plan]="plan" [area]="area"
+          [canDrag]="canEdit"
+          [booked]="booked" [want]="want"
+          (mousedown)="focusArea($event, area, i)"></app-hallplan-polygon-text>
+
+        <!-- drag handle -->
+        <div *ngIf="canEdit">
+          <app-hallplan-polygon *ngFor="let pos of area.positions; let i=index; trackBy:trackIndex"
+                                (width)="updateWidth($event)"
+                                (height)="updateHeight($event)"
+                                (mousedown)="focusArea($event, area, i)"
+                                [plan]="plan"
+                                [area]="area"
+                                [index]="i"
+                                [canDrag]="canEdit">
+          </app-hallplan-polygon>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

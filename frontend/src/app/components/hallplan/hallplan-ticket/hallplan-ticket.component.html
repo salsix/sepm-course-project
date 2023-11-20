@@ -1,0 +1,62 @@
+<div *ngIf="want && taken && show" class="px-4">
+
+  <div class="p-3">
+    <div *ngIf="!static" class="text-center mb-3">
+      <div class="h-100 d-inline-block align-text-top">
+        <table class="table table-hover prices">
+          <thead><tr><td>Prices</td></tr></thead>
+          <tbody>
+          <tr *ngFor="let cat of show.hallplan.cats">
+            <td [style.color]="cat.color">{{cat.price}}$</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="d-inline-block hallplan-container align-text-top">
+        <app-hallplan [canEdit]="false" [plan]="show.hallplan"
+                      [booked]="taken" [want]="want"
+                      [static]="static"
+
+                      (editing)="select($event)"
+                      (editSeat)="editSeat=$event"
+                      (data)="data=$event"
+                      (seat)="seat=$event"
+                      (seatNumber)="seatNumber=$event"
+                      (area)="area=$event"></app-hallplan>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <h4>Chosen Seat Tickets: {{sCount}}</h4>
+          <div *ngFor="let s of wantSeatIds" [style.color]="show.hallplan.cats[s.cat].color">
+            <div class="d-inline-block font-weight-bold pl-1 seat-cat">{{s.id}}: </div>
+            <div *ngFor="let nr of want.seats[s.id]; let i=index;"
+                 class="d-none pl-1"
+                 [class.seat-last]="hasBorder(s.id, nr, i)">
+              <div class="d-inline-block" [class.seat-list]="static?null:true" (click)="listRemove(s.id, nr)">{{nr}}</div>
+              {{hasBorder(s.id, nr, i) ? '' : ' -'}}
+            </div>
+          </div>
+        </div>
+        <div class="col-sm">
+          <h4>Chosen Area Tickets: {{aCount}}</h4>
+          <div *ngFor="let area of wantAreasIds" [style.color]="show.hallplan.cats[area.cat].color">
+            <div class="d-inline-block font-weight-bold">{{area.identifier+area.rowNumber}}: </div>
+            <input [attr.disabled]="static?'':null" class="form-control seat-last px-1" type="number" min="0"
+                   [max]="area.count-areaBooked(area.identifier+area.rowNumber)"
+                   [value]="want.areas[area.identifier+area.rowNumber]"
+                   (input)="changeArea($event, area)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+</div>
+

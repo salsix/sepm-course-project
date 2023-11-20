@@ -1,0 +1,21 @@
+<app-alert [alert]="basicAlert"></app-alert>
+
+<a routerLink="../" class="btn btn-outline-dark mb-3">Back to Orders</a>
+
+<div *ngIf="bill">
+  <h2>{{bill.show.event.name}}</h2>
+  <h5>Date: {{ticketsService.dateStringFromString(bill.show.date)}} {{ticketsService.timeString(bill.show.hour, bill.show.minute)}}</h5>
+
+  <h3 [class.text-danger]="bill.storno?true:null">{{bill.storno ? 'Cancelled' : (bill.reserved ? 'Reserved' : 'Bought')}} Tickets</h3>
+
+  <app-hallplan-ticket [want]="want" [taken]="taken" [show]="bill.show" [static]="bill.storno || !bill.reserved"
+                       (alert)="basicAlert=$event" (price)="price=$event"></app-hallplan-ticket>
+
+  <h4>Total: {{price}}$</h4>
+  <div *ngIf="!bill.storno">
+    <div *ngIf="bill.reserved">
+      <button class="btn btn-block btn-outline-primary" (click)="buyReserved()">Buy Tickets</button>
+    </div>
+    <button class="btn btn-block btn-outline-danger" (click)="storno()">Cancel Tickets</button>
+  </div>
+</div>

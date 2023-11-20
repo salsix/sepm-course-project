@@ -1,0 +1,28 @@
+<div *ngIf="seat" class="mr-2 seat"
+     [style.transform]="'translate('+seat.positionX+'px,'+seat.positionY+'px)'"
+     [style.filter]="!seat.select ? null : 'brightness(1.1) saturate(1.3)'">
+  <!-- seats -->
+  <div *ngFor="let nr of ar(seat.count); let i = index" (mousedown)="mousedownCustom($event, i)" class="seat unselectable"
+       [style.transform]="'translate('+(i*this.seat.offsetX)+'px,'+
+        (i*this.seat.offsetY)+'px)'">
+    <img src="{{'assets/'+seat.image}}" alt="seat" draggable="false"
+         [style.filter]="canDrag ?
+          'opacity(0.5) drop-shadow(0.01px 0 0 ' + plan.cats[seat.cat].color + ')' :
+          ( booked.seats[seat.identifier+seat.rowNumber] && booked.seats[seat.identifier+seat.rowNumber].indexOf(seat.startNumber+i)!==-1 ?
+            'brightness(0.7)' :
+            ( want.seats[seat.identifier+seat.rowNumber] && want.seats[seat.identifier+seat.rowNumber].indexOf(seat.startNumber+i)!==-1 ?
+              'opacity(1) drop-shadow(0.01px 0 0 ' + this.plan.cats[this.seat.cat].color + ')' :
+              'opacity(0.5) drop-shadow(0.01px 0 0 ' + this.plan.cats[this.seat.cat].color + ')'
+            )
+          )">
+    <h6 class="text unselectable">{{i+seat.startNumber}}</h6>
+  </div>
+
+  <!-- Row Identifier -->
+  <h6 class="unselectable text-right seat font-weight-bold"
+      [style.color]="plan.cats[seat.cat].color"
+      [style.transform]="'translate('+(-this.seat.offsetX*((seat.identifier + '' + seat.rowNumber).length/3+0.5)+5)+'px,'+
+        (-this.seat.offsetY*((seat.identifier + '' + seat.rowNumber).length/3+0.5)+5)+'px)'">
+    {{seat.identifier+''+seat.rowNumber}}
+  </h6>
+</div>

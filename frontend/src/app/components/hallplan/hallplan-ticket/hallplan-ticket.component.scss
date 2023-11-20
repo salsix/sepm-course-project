@@ -1,0 +1,28 @@
+.prices {
+  max-width: 68px;
+}
+
+.hallplan-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.seat-list {
+  cursor: pointer;
+}
+.seat-list:hover {
+  color: red;
+  text-decoration: line-through;
+}
+
+.seat-last {
+  display: inline-block !important;
+  padding-right: 0.25rem;
+}
+.seat-last + * {
+  display: inline-block !important;
+  border-left: solid black 1px !important;
+}
+.seat-cat + * {
+  display: inline-block !important;
+}

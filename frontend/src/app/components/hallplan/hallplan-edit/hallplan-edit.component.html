@@ -1,0 +1,170 @@
+<app-alert [alert]="alert"></app-alert>
+
+<div class="container bg-light" *ngIf="plan">
+  <a class="btn btn-outline-dark mt-3" routerLink="../../../">Back to Location List</a>
+  <a class="btn btn-outline-dark mt-3" routerLink="../../">{{plan.location.name}}</a>
+
+  <div class="container py-3">
+    <h3>Hall name: {{plan.name}}</h3>
+    <input class="form-control" type="text" [(ngModel)]="plan.name">
+    <button type="button" class="btn btn-outline-primary btn-block" (click)="save()">Save</button>
+  </div>
+
+  <!-- price groups -->
+  <div class="container py-3">
+    <h4>Price Categories</h4>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <td>Price</td>
+          <td>Color</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let price of plan.cats; let i=index">
+          <td><input class="form-control form-control-sm d-inline-block" type="number"
+                     [(ngModel)]="price.price"></td>
+          <td><input class="form-control form-control-sm d-inline-block" name="newCatColor" type="color"
+                     [(ngModel)]="price.color"></td>
+          <td><button *ngIf="plan.cats.length>1"
+                      type="button" class="btn btn-outline-danger btn-block btn-sm"
+                      (click)="deletePriceGroup(i)">X</button></td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="btn btn-sm btn-block btn-outline-secondary" (click)="plan.cats.push(defaultCat())">+</button>
+  </div>
+
+  <!-- different seat images -->
+  <div class="container py-3">
+    <h4>New Seats</h4>
+
+    <div class="row">
+      <div class="col-sm">
+        <button type="button" class="btn btn-outline-info btn-block h-100" (click)="newSeat('seat2.png', 14)">
+          <img [style.filter]="'opacity(0.9) drop-shadow(0px 0px 0px '+plan.cats[0].color+')'" src="../../../../assets/seat2.png" alt="seat" draggable="false" class="p-1">
+          New Seat Row
+        </button>
+      </div>
+      <div class="col-sm">
+        <button type="button" class="btn btn-outline-info btn-block h-100" (click)="newSeat('bigSeat.png', 35)">
+          <img [style.filter]="'opacity(0.9) drop-shadow(0px 0px 0px '+plan.cats[0].color+')'" src="../../../../assets/bigSeat.png" alt="seat" draggable="false" class="p-1">
+          New Seat Row
+        </button>
+      </div>
+      <div class="col-sm">
+        <button type="button" class="btn btn-outline-info h-100" (click)="newPolygon()" >
+          <img src="../../../../assets/polygon.png" alt="polygon" draggable="false" class="p-1">
+          New Standing Area
+          <input type="number" min="3" class="form-control form-control-sm d-inline-block"
+                 [(ngModel)]="newAreaCount" (click)="$event.stopPropagation()">
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <!-- existing seat settings -->
+  <div class="px-3 mb-3">
+    <h4>Seat Settings</h4>
+
+    <fieldset [attr.disabled]="editing ? null : 'disabled'">
+      <div class="mb-2">
+        <button class="btn btn-sm btn-info" (click)="copyCurrent()"><img src="../../../../assets/copy.png" alt="Copy"> Copy</button>
+        <button class="btn btn-sm btn-danger" (click)="deleteCurrent()">Delete</button>
+      </div>
+
+      <!-- Data Settings -->
+      <div class="container">
+        <h5>Settings</h5>
+
+        <div class="row">
+          <div class="form-group col-sm">
+            <label>Price Category</label>
+            <select class="form-control form-control-sm" name="priceGroup" value="{{priceGroup}}" [(ngModel)]="data.cat"
+                    [style.color]="plan.cats[data.cat].color">
+              <option *ngFor="let price of plan.cats; let i=index"
+                      value="{{i}}"
+                      [style.color]="price.color"
+                      [attr.selected]="i==data.cat?'':null">{{price.price}}</option>
+            </select>
+          </div>
+
+          <div class="form-group col-sm">
+            <label>Identifier</label>
+            <input class="form-control form-control-sm d-inline-block" name="count" type="text" value="R"
+                   [(ngModel)]="data.identifier">
+          </div>
+          <div class="form-group col-sm">
+            <label>Number</label>
+            <input class="form-control form-control-sm d-inline-block" name="start" type="number" value="1"
+                   [(ngModel)]="data.rowNumber">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Seat Settings -->
+      <fieldset [class.d-none]="editSeat ? null : 'true'">
+        <div class="container">
+          <h5>Seat Row</h5>
+
+          <div class="row">
+            <div class="form-group col-sm">
+              <label>Seat Count</label>
+              <input class="form-control form-control-sm d-inline-block" name="count" type="number" value="1" min="1"
+                     [(ngModel)]="seat.count">
+            </div>
+            <div class="form-group col-sm">
+              <label>Start Nr.</label>
+              <input class="form-control form-control-sm d-inline-block" name="start" type="number" value="1" min="1"
+                     [(ngModel)]="seat.startNumber">
+            </div>
+            <div class="form-group col-sm">
+              <label><img src="../../../../assets/rot.png" alt="Rotate Left"> Rotation</label>
+              <input class="form-control form-control-sm d-inline-block" name="rotation"
+                     type="number" value="0" [(ngModel)]="sAngle" (input)="changeOffset()">
+            </div>
+            <div class="form-group col-sm">
+              <label><img src="../../../../assets/dist.png" alt="Rotate Left"> Distance</label>
+              <input class="form-control form-control-sm d-inline-block" name="rotation"
+                     type="number" value="0" [(ngModel)]="sDistance" (input)="changeOffset()">
+            </div>
+          </div>
+
+        </div>
+      </fieldset>
+
+      <!-- Area Settings -->
+      <fieldset [class.d-none]="!editSeat ? null : 'true'">
+        <div class="container">
+          <h5>Standing Area</h5>
+
+          <div class="row">
+            <div class="form-group col-sm">
+              <label>Maximum Count</label>
+              <input class="form-control form-control-sm d-inline-block" name="count" type="number" value="1" min="1"
+                     [(ngModel)]="area.count">
+            </div>
+          </div>
+
+        </div>
+      </fieldset>
+    </fieldset>
+  </div>
+
+  <!-- drag&drop window -->
+  <app-hallplan [canEdit]="true" [plan]="plan"
+                (editing)="editing=$event;editingChange()"
+                (editSeat)="editSeat=$event"
+                (editIndex)="editIndex=$event"
+                (data)="data.select=false;data=$event;data.select=true"
+                (seat)="seat=$event"
+                (area)="area=$event">
+  </app-hallplan>
+
+</div>
+

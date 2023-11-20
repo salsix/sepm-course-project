@@ -1,0 +1,24 @@
+<a class="btn btn-primary btn-block mb-3" routerLink="/news-previous">Previously read news</a>
+
+<h2>News</h2>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <td><b>News Title</b></td>
+      <td><b>Short Description</b></td>
+      <td><b>News Release Date</b></td>
+    </tr>
+  </thead>
+
+  <tr *ngFor="let news of newsEntry" [class.selected]="news === selectedNews">
+    <td>{{news.title}}</td>
+    <td>{{news['shortDescription']}}</td>
+    <td>{{news['publishedAt']  |  date:'MM/dd/yyyy hh:mm'}}</td>
+    <td>
+      <a routerLink="/news-current/{{news.id}}">
+        <button class="btn btn-warning float-right"> Details</button>
+      </a>
+    </td>
+  </tr>
+</table>

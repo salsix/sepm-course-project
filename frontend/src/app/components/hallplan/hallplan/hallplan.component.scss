@@ -1,0 +1,19 @@
+
+.hallplan-drag {
+  background-color: #f8f8f8;
+  position: relative;
+  border: solid black 1px;
+  overflow: hidden;
+}
+
+.hallplan-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hallplan-handles {
+  position: relative;
+}

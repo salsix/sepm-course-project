@@ -1,0 +1,30 @@
+<app-alert [alert]="alert"></app-alert>
+<h2>New News</h2>
+<div>
+  <div class="form-group">
+    <label>Title</label>
+    <input type="text" class="form-control" minlength="1" [(ngModel)]="newNews.title">
+  </div>
+
+  <div class="form-group">
+  <label>ShortDescription</label>
+  <textarea class="form-control" minlength="1" [(ngModel)]="newNews.shortDescription"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>News Main Text Content</label>
+    <textarea class="form-control" minlength="1" [(ngModel)]="newNews.content"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Image (.jpeg, .png)</label>
+    <input type="file" multiple accept="image/jpeg, image/png" class="form-control" (change)="outputImage($event)">
+  </div>
+
+  <div class="pt-4">
+    <div class="p-3">
+      <button [disabled]="submitting?'true':null" type="button" class="btn btn-outline-primary btn-block" (click)="saveNews()">New News Entry</button>
+    </div>
+  </div>
+</div>
+

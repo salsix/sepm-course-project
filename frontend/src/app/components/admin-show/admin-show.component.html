@@ -1,0 +1,15 @@
+<app-alert [alert]="alert"></app-alert>
+
+<div class="bg-light px-4" >
+  <a class="btn btn-outline-dark mt-3" routerLink="../../../">Back to Event List</a>
+  <a class="btn btn-outline-dark mt-3" routerLink="../../">Back to {{show ? show.event.name : 'Event'}}</a>
+
+  <div *ngIf="show" class="mt-3 bg-light">
+    <h3>Edit Show</h3>
+    <div class="px-3">
+      <app-show-edit [show]="show" (alert)="alert=$event"></app-show-edit>
+      <button [disabled]="submitting?'true':null" type="button" class="btn btn-outline-primary btn-block" (click)="editShow()">Save changes</button>
+    </div>
+  </div>
+</div>
+

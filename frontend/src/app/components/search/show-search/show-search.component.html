@@ -1,0 +1,62 @@
+<app-alert [alert]="basicAlert"></app-alert>
+
+<form [formGroup]="showSearchForm" (ngSubmit)="page=0;shows=[];loadShows()" class="container">
+  <h3>Show Search</h3>
+  <div class="form-group">
+    <label>Day</label>
+    <input type="date" class="form-control" formControlName="date">
+  </div>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="form-group col">
+        <label>Earliest Starting Time</label>
+          <div class="row">
+            <input type="number" class="form-control col-2 ml-3" formControlName="earliestH" min="0" max="23">
+             <div class="pl-2 pr-2 mt-auto mb-auto">:</div>
+            <input type="number" class="form-control col-2" formControlName="earliestM" min="0" max="59">
+          </div>
+        </div>
+      <div class="form-group col">
+        <label>Latest Starting Time</label>
+        <div class="row">
+          <input type="number" class="form-control col-2 ml-3" formControlName="latestH" min="0" max="23">
+          <div class="pl-2 pr-2 mt-auto mb-auto">:</div>
+          <input type="number" class="form-control col-2" formControlName="latestM" min="0" max="59">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Max Price</label>
+    <input type="number" class="form-control" formControlName="maxPrice">
+  </div>
+
+  <button type="submit" value="Submit" class="btn btn-primary">Search</button>
+</form>
+
+<div class="container" *ngIf="shows.length !== 0">
+  <div class="row font-weight-bold border-bottom pt-4 mb-2">
+    <div class="col-2">Event</div>
+    <div class="col-2">Date</div>
+    <div class="col-1">Time</div>
+    <div class="col-2">Location</div>
+    <div class="col-3">Adress</div>
+  </div>
+
+  <div class="row show-row border rounded mb-2" *ngFor="let show of shows">
+    <div class="col col-2">{{show.event.name}}</div>
+    <div class="col col-2">{{ticketsService.dateStringFromString(show.date)}}</div>
+    <div class="col col-1">{{ticketsService.timeString(show.hour, show.minute)}}</div>
+    <div class="col col-2">{{show.hallplan.location.name}}, {{show.hallplan.name}}</div>
+    <div class="col col-3">{{show.hallplan.location.street}}, {{show.hallplan.location.zip}}</div>
+    <div class="col col-2 d-flex justify-content-end">
+      <a *ngIf="showInFuture(show)" class="btn btn-sm btn-outline-dark" routerLink="/shows/{{show.id}}">Buy/Reserve Tickets</a>
+    </div>
+  </div>
+
+  <div class="text-center pt-3" *ngIf="shows.length===5 || page!==0">
+    <app-pagination [canChange]="!pageLoad" [inPage]="page" (page)="pagination($event)"></app-pagination>
+  </div>
+</div>

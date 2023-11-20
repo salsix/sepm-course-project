@@ -1,0 +1,81 @@
+<app-alert [alert]="basicAlert"></app-alert>
+
+<h1>User Management</h1>
+
+<form [formGroup]="userSearchForm" (ngSubmit)="loadUsers()" class="pt-4">
+    <div class="form-row">
+      <div class="col">
+        <input type="text" class="form-control" formControlName="firstname" placeholder="First Name">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" formControlName="lastname" placeholder="Last Name">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" formControlName="email" placeholder="E-Mail">
+      </div>
+      <div class="col form-check form-check-inline justify-content-center">
+        <input type="checkbox" id="adminCheckbox" class="form-check-input" formControlName="admin">
+        <label class="form-check-label" for="adminCheckbox">Only Admins</label>
+      </div>
+      <div class="col form-check form-check-inline justify-content-center">
+        <input type="checkbox" id="lockedCheckboy" class="form-check-input" formControlName="locked">
+        <label class="form-check-label" for="lockedCheckboy">Only Locked</label>
+      </div>
+      <div class="col form-check form-check-inline justify-content-end">
+        <button type="submit" value="Submit" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+</form>
+
+<div class="container pt-4">
+  <div>
+    <div class="row border-bottom">
+      <div class="col">
+        <div class="row font-weight-bold">
+          <div class="user-col col-3">E-Mail</div>
+          <div class="user-col col-3">Name</div>
+          <div class="user-col col-1">Gender</div>
+          <div class="user-col col-1">Birthdate</div>
+        </div>
+      </div>
+      <div class="col-2 d-flex align-items-center justify-content-end">
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row d-flex align-items-center justify-content-center pt-3" *ngIf="!users">
+    <p class="font-italic text-muted text-center">Could not find any users matching your search.</p>
+  </div>
+
+  <div *ngFor="let user of users">
+    <div class="row user-row border rounded" [ngClass]="{'bg-light text-muted' : user.locked || user.loginFails === 5}">
+      <div class="col m-auto">
+        <div class="row" *ngIf="user.locked"><div class="col lockeduser text-warning">User was locked by an Admin.</div></div>
+        <div class="row" *ngIf="user.loginFails === 5"><div class="col lockeduser text-warning">User has 5 failed logins.</div></div>
+        <div class="row">
+          <div class="user-col col-3">{{user.email}}</div>
+          <div class="user-col col-3">{{user.firstName}} {{user.lastName}}</div>
+          <div class="user-col col-1">{{user.gender}}</div>
+          <div class="user-col col-1">{{user.dateOfBirth}}</div>
+        </div>
+      </div>
+      <div class="col-2 d-flex align-items-center justify-content-end">
+        <div class="dropdown">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Options
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" *ngIf="user.locked || user.loginFails === 5" (click)="unlockUser(user.email)">Unlock User</a>
+            <a class="dropdown-item" *ngIf="!(user.locked || user.loginFails === 5)" (click)="lockUser(user.email)">Lock User</a>
+            <a class="dropdown-item" (click)="resetUserPassword(user.email)">Reset Password</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center pt-3" *ngIf="users.length===5 || page!==0">
+    <app-pagination [canChange]="!pageLoad" [inPage]="page" (page)="pagination($event)"></app-pagination>
+  </div>
+</div>

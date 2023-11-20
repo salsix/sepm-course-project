@@ -1,0 +1,12 @@
+<div class="fixed-top text-center alert-container w-50 mx-auto">
+  <div *ngFor="let a of list" class="alert alert-dismissible align-text-top " role="alert"
+       [class]="'alert-'+a.type" [@openClose]="a.state" (@openClose.done)="animEnd(a)">
+    <span class="d-block" >
+      <strong>{{ a.strongMessage }}</strong>
+      <span [innerHTML]="a.message"></span>
+    </span>
+    <button type="button" (click)="remove(a)" class="close" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+</div>

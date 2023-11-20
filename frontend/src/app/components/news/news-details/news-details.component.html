@@ -1,0 +1,21 @@
+<app-alert [alert]="alert"></app-alert>
+<a class="btn btn-outline-dark mb-3" routerLink="../">Back to News List</a>
+<div class="bg-light p-5">
+
+  <div *ngIf="news">
+    <h2 class="p-0">{{news.title}}</h2>
+    <h6>News from: {{news.publishedAt | date: 'MM/dd/yyyy hh:mm'}}</h6>
+
+    <div class="mb-3 mt-3" *ngIf="news.imageCount > 0">
+      <ngb-carousel class="bg-dark">
+        <ng-template ngbSlide *ngFor="let link of imageList; let i = index">
+          <div class="text-center">
+            <img src="{{link}}" alt="Picture{{i}}" class="news-img d-inline-block">
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+
+    <span [innerHTML]="news.content"></span>
+  </div>
+</div>

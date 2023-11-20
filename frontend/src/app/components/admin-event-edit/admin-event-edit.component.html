@@ -1,0 +1,35 @@
+<div>
+  <div class="form-group">
+    <label>Name</label>
+    <input type="text" class="form-control" minlength="1" [(ngModel)]="event.name">
+  </div>
+
+  <div class="form-group">
+    <label>Category</label>
+    <select class="form-control" [(ngModel)]="event.category.category" (click)="loadCategories()">
+      <option [value]="null">Select Category</option>
+      <option *ngIf="event.category.category">{{event.category.category}}</option>
+      <option *ngFor="let c of categoryList" [value]="c">{{c}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Duration in minutes</label>
+    <input type="number" class="form-control" minlength="1" [(ngModel)]="event.duration">
+  </div>
+
+  <div class="form-group">
+    <label>Description</label>
+    <textarea class="form-control" minlength="1" [(ngModel)]="event.description"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Artists</label>
+    <textarea class="form-control" minlength="1" [(ngModel)]="event.artists"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Image (.jpeg, .png)</label>
+    <input type="file" accept="image/jpeg, image/png" class="form-control" (change)="outputImage($event)">
+  </div>
+</div>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Spring Boot - Thymeleaf</title>
+    <link rel="stylesheet" th:href="@{src/main/resources/templates/style.css}"/>
+</head>
+<body class="flex items-center justify-center h-screen">
+<header>
+    21SS_SEPM PR_INSO_04 - GmbH
+</header>
+<div class="rounded-lg border shadow-lg p-10 w-3/5">
+    <div class="flex flex-row justify-between pb-4">
+        <div>
+            <h1 class="text-xl font-bold ">Ticket Number: <span class="text-green-600"
+                                                                th:text="${orderEntry.id}"></span>
+            </h1>
+        </div>
+        <br><br>
+        <div class="text-xl font-bold">Date of purchase: "<span class="text"
+                                                                th:text="${orderEntry.getBuyTime().toLocalDate()}"></span>"
+
+        </div>
+        <h2 class="text-xl font-bold">Owner of Ticket: </h2>
+        <table class="table-fixed w-full text-right ">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Customer-Id</th>
+                <th>Bill-Id</th>
+            </tr>
+            <tbody>
+            <tr>
+                <td th:text="${orderEntry.getApplicationUser().getFirstName()}"></td>
+                <td th:text="${orderEntry.getApplicationUser().getLastName()}"></td>
+                <td th:text="${orderEntry.getApplicationUser().getId()}"></td>
+                <td th:text="${orderEntry.id}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <h2 class="text-xl font-bold">Your Tickets: </h2>
+        <table class="table-fixed w-full text-right ">
+            <thead class="bg-gray-100">
+            <tr>
+                <th>Number of Tickets</th>
+                <th>Date (Year/Month/Day)</th>
+                <th>Event</th>
+                <th>Duration (min)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${orderEntry.getTicketCount()}"></td>
+                <td th:text="${orderEntry.getShow().getDate()}"></td>
+                <td th:text="${orderEntry.getShow().getEvent().getName()}"></td>
+                <td th:text="${orderEntry.getShow().getEvent().getDuration()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <h2 class="text-xl font-bold">Location Details: </h2>
+        <table class="table-fixed w-full text-right ">
+            <thead class="bg-gray-100">
+            <tr>
+                <th>Country</th>
+                <th>City</th>
+                <th>Zip</th>
+                <th>Street</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${orderEntry.getShow().getHallplan().getLocation().getCountry()}"></td>
+                <td th:text="${orderEntry.getShow().getHallplan().getLocation().getCity()}"></td>
+                <td th:text="${orderEntry.getShow().getHallplan().getLocation().getZip()}"></td>
+                <td th:text="${orderEntry.getShow().getHallplan().getLocation().getStreet()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <table class="table-fixed w-full text-right ">
+            <thead class="bg-gray-100">
+            <tr>
+                <th>Artists</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${orderEntry.getShow().getEvent().getArtists()}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <h2 class="text-xl font-bold">QR-Code Details</h2>
+        <img th:src="'data:image/jpg;base64,' + ${qr}"  alt="noQrAvailable"/>
+        <h3> Keep ticket ready for scanning!</h3>
+    </div>
+</div>
+</body>
+</html>

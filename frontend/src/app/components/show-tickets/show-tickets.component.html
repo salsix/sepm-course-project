@@ -1,0 +1,23 @@
+<app-alert [alert]="basicAlert"></app-alert>
+
+<div *ngIf="show">
+  <h5 *ngIf="!showInFuture(show)">
+    Show played in the past.
+  </h5>
+
+  <div *ngIf="taken && showInFuture(show)" class="bg-light p-3">
+    <h2>{{taken.show.event.name}}</h2>
+    <h4>{{ticketsService.dateStringFromString(taken.show.date)}} {{ticketsService.timeString(taken.show.hour, taken.show.minute)}}</h4>
+
+    <app-hallplan-ticket [want]="want" [taken]="taken" [show]="taken.show"
+                         (alert)="basicAlert=$event" (price)="price=$event"></app-hallplan-ticket>
+
+    <div *ngIf="price>0">
+      <h4 class="mt-2">Total: {{price}}$</h4>
+      <button type="button" class="btn btn-outline-primary btn-block" (click)="buy()" [attr.disabled]="submitting ? '' : null">Buy Tickets</button>
+      <button type="button" class="btn btn-outline-info btn-block" (click)="reserve()" [attr.disabled]="submitting ? '' : null">Reserve Tickets</button>
+
+      <h6 class="text-danger mt-2">Reserved tickets must be bought 30m before the show!</h6>
+    </div>
+  </div>
+</div>

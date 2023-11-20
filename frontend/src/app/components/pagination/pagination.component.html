@@ -1,0 +1,13 @@
+<div class="text-center d-inline-block">
+  <ul class="pagination">
+    <li class="page-item">
+      <button [attr.disabled]="canChange?null:true" type="button" class="btn page-link" (click)="add(-1)"><<</button>
+    </li>
+    <li class="page-item">
+      <input [attr.disabled]="canChange?null:true" type="number" min="1" class="form-control d-inline-block page-input ml-2 mr-2" [value]="internPage" (change)="change($event)">
+    </li>
+    <li class="page-item">
+      <button [attr.disabled]="canChange?null:true" type="button" class="btn page-link" (click)="add(1)">>></button>
+    </li>
+  </ul>
+</div>

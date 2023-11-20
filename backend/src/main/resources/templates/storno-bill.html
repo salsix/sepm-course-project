@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Spring Boot - Thymeleaf</title>
+    <link rel="stylesheet" th:href="@{src/main/resources/templates/style.css}"/>
+</head>
+<body class="flex items-center justify-center h-screen">
+<header>
+    21SS_SEPM PR_INSO_04 - GmbH
+</header>
+<div class="rounded-lg border shadow-lg p-10 w-3/5">
+    <div class="flex flex-row justify-between pb-4">
+        <div>
+            <h1 class="text-xl font-bold ">Storno-Bill Number: <span class="text-green-600"
+                                                                     th:text="${stornoBillEntry.id}"></span>
+            </h1>
+        </div>
+        <br><br>
+        <div class="text-xl font-bold">Date of purchase: "<span class="text"
+                                                                th:text="${stornoBillEntry.getBuyTime().toLocalDate()}"></span>"
+        </div>
+        <div class="text-xl font-bold">Date of cancellation: "<span class="text"
+                                                                    th:text="${stornoBillEntry.getStornoTime().toLocalDate()}"></span>"
+        </div>
+    </div>
+    <h2 class="text-xl font-bold">Customer Details: </h2>
+    <table class="table-fixed w-full text-right ">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Customer-Id</th>
+            <th>Bill-Id</th>
+        </tr>
+        <tbody>
+        <tr>
+            <td th:text="${stornoBillEntry.getApplicationUser().getFirstName()}"></td>
+            <td th:text="${stornoBillEntry.getApplicationUser().getLastName()}"></td>
+            <td th:text="${stornoBillEntry.getApplicationUser().getId()}"></td>
+            <td th:text="${stornoBillEntry.id}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <br><br>
+    <h2 class="text-xl font-bold">Your Tickets: </h2>
+    <table class="table-fixed w-full text-right ">
+        <thead class="bg-gray-100">
+        <tr>
+            <th>Number of Tickets</th>
+            <th>Date</th>
+            <th>Event</th>
+            <th>Sales tax</th>
+            <th>Tax Amount(€)</th>
+            <th>Total: (€)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${stornoBillEntry.getTicketCount()}"></td>
+            <td th:text="${stornoBillEntry.getShow().getDate()}"></td>
+            <td th:text="${stornoBillEntry.getShow().getEvent().getName()}"></td>
+            <td> 13%</td>
+            <td>
+                <span th:text="${#numbers.formatDecimal(result,0,2)}"
+                      th:with="result=${((stornoBillEntry.getPrice() * 0.13) )}"></span>
+            </td>
+            <td><span class="text-green-600" th:text="${stornoBillEntry.getPrice()}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+    <br><br>
+    <h2 class="text-xl font-bold">Payment Details</h2>
+    <div> Owner: 21SS_SEPM PR_INSO_04 - GmbH</div>
+    <div> ISBN: 1234567890</div>
+    <div> Bank Number: 12345</div>
+</div>
+</body>
+</html>
