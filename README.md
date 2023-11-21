@@ -1,4 +1,4 @@
-## SEPM Course Project: Ticketline
+# SEPM Course Project: Ticketline
 ## Context
 This was the final project for the course "Software Engineering and Project Management" from my Business Informatics bachelor programme.
 
